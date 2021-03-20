@@ -75,7 +75,8 @@ with browser as driver:  # edge driver를 with문 안에서 사용한다.
             image_number += 1  # image 번호를 1 증가시킨다.
             img_path = f"{folder_name}/{folder_name}_{image_number}.jpg"  # image 경로를 갱신한다.
 
-        result = requests.get(img_url, headers={'User-Agent': 'Edge/89.0.774.57'})  # request 과정에서 필요한 정보를 설정한다.
+        header = {'User-Agent': 'Edge/89.0.774.57'}  # 서버에서 User-Agent를 요구하는 경우를 위해 해당 정보를 준비한다.
+        result = requests.get(img_url, headers=header)  # request룰 선언한다.
         with open(img_path, 'wb') as f:  # image를 file로 처리한다.
             f.write(result.content)  # image를 file로 저장한다.
 
