@@ -1,15 +1,15 @@
 """
 *** 사전 조건 ***
 
-1. 자신의 컴퓨터에 설치된 브라우저 버전에 맞는 드라이버를 다운로드한다.
-2. 드라이버를 이 py 파일과 같은 경로로 옮긴다.
-3. driver_name = "msedgedriver.exe" -> 이 코드에서 'msedgedriver.exe' 부분을 드라이버 파일 이름으로 수정한다.
-4. browser = webdriver.Edge(driver_name) -> 이 코드에서 'Edge' 부분을 드라이버에 맞는 브라우저로 수정한다.
+1. "pip install" 명령어로 아래 import 모듈 중 없는 모듈을 설치한다.
+2. 자신의 컴퓨터에 설치된 브라우저 버전에 맞는 드라이버를 다운로드한다.
+3. 드라이버를 이 py 파일과 같은 경로로 옮긴다.
+4. driver_name = "msedgedriver.exe" -> 이 코드에서 'msedgedriver.exe' 부분을 드라이버 파일 이름으로 수정한다.
+5. browser = webdriver.Edge(driver_name) -> 이 코드에서 'Edge' 부분을 드라이버에 맞는 브라우저로 수정한다.
     ex) 엣지: Edge, 크롬: Chrome, 파이어폭스: Firefox, 인터넷 익스플로러: Ie, 오페라: Opera, 사파리: Safari
-5. search_word = "페트" -> '페트' 부분을 필요한 검색어로 수정한다.
-6. folder_name = "PET" -> 'PET' 부분을 저장할 폴더 이름으로 수정한다.
+6. search_word = "페트" -> '페트' 부분을 필요한 검색어로 수정한다.
+7. folder_name = "PET" -> 'PET' 부분을 저장할 폴더 이름으로 수정한다.
     (폴더의 경로는 이 py 파일과 같은 경로다.)
-7. "pip install" 명령어로 아래 import 코드 중 필요한 모듈을 설치한다.
 """
 
 from selenium import webdriver
