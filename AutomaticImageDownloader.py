@@ -28,7 +28,7 @@ search_word = "페트"  # 검색어를 정한다.
 folder_name = "PET"  # image를 저장할 folder 이름을 정한다.
 
 with browser as driver:  # edge driver를 with문 안에서 사용한다.
-    wait = WebDriverWait(driver, 1)  # 허용 응답 시간이 10초인 WebDriverWait 객체를 선언한다.
+    wait = WebDriverWait(driver, 1)  # 허용 응답 시간이 1초인 WebDriverWait 객체를 선언한다.
     driver.get(f"https://www.google.co.kr/imghp?hl=ko&ogbl")  # 검색할 site의 url를 지정한다.
 
     search_banner = driver.find_element(By.NAME, "q")  # 검색 banner를 찾는다.
