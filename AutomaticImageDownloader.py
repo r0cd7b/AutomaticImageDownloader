@@ -8,7 +8,7 @@
     ex) 엣지: Edge, 크롬: Chrome, 파이어폭스: Firefox, 인터넷 익스플로러: Ie, 오페라: Opera, 사파리: Safari
 6. search_word = "페트" -> '페트' 부분을 필요한 검색어로 수정한다.
 7. folder_name = "PET" -> 'PET' 부분을 저장할 폴더 이름으로 수정한다.
-    (폴더의 경로는 이 py 파일과 같은 경로이다.)
+    + 폴더의 경로는 이 py 파일과 같은 경로이다.
 """
 
 from selenium import webdriver
@@ -65,7 +65,7 @@ with browser as driver:  # edge driver를 with문 안에서 사용한다.
                                     "div.zjoqD > div > div.v4dQwb > a > img")  # 요소를 CSS_SELECTOR로 찾기 위해 준비한다.
         conditions = expected_conditions.presence_of_element_located(locator)  # 해당 요소의 존재를 확인한다.
         image = wait.until(conditions)  # image 요소를 찾을 때까지 기다리고 반환한다.
-        time.sleep(0.3)  # browser가 src 값을 갱신할 수 있게 기다린다.
+        time.sleep(0.4)  # browser가 src 값을 갱신할 수 있게 기다린다.
         img_url = image.get_attribute("src")  # 현재 image의 src를 보관한다.
         print(img_url)  # 찾아낸 image의 url을 출력한다.
 
