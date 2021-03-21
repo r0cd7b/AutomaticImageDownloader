@@ -12,13 +12,13 @@
 """
 
 from selenium import webdriver
+from selenium.webdriver import ActionChains
+from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver import ActionChains
-from os import path
 import os
+from os import path
 import time
 import requests
 
@@ -66,10 +66,10 @@ with browser as driver:  # edge driver를 with문 안에서 사용한다.
         conditions = expected_conditions.presence_of_element_located(locator)  # 해당 요소의 존재를 확인한다.
         image = wait.until(conditions)  # image 요소를 찾을 때까지 기다리고 반환한다.
         time.sleep(0.3)  # browser가 src 값을 갱신할 수 있게 기다린다.
-        img_url = image.get_attribute("src")  # 현재 image의 src를 저장한다.
+        img_url = image.get_attribute("src")  # 현재 image의 src를 보관한다.
         print(img_url)  # 찾아낸 image의 url을 출력한다.
 
-        img_path = f"{folder_name}/{folder_name}_{image_number}.jpg"  # image의 경로를 저장한다.
+        img_path = f"{folder_name}/{folder_name}_{image_number}.jpg"  # image의 경로를 보관한다.
         while path.isfile(img_path):  # 이미 존재하는 file 이름이라면 반복한다.
             image_number += 1  # image 번호를 1 증가시킨다.
             img_path = f"{folder_name}/{folder_name}_{image_number}.jpg"  # image 경로를 갱신한다.
