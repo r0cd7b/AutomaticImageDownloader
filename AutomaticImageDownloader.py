@@ -47,7 +47,8 @@ with browser as driver:  # edge driver를 with문 안에서 사용한다.
         locator = (By.CSS_SELECTOR, selector)  # 요소를 CSS_SELECTOR로 찾기 위해 준비한다.
         conditions = expected_conditions.presence_of_element_located(locator)  # 해당 요소의 존재를 확인한다.
         try:  # 해당 요소 번호의 image가 없을 경우 예외가 발생한다.
-            thumbnail = wait.until(conditions, "It is not an element or an image.")  # thumbnail 요소를 찾을 때까지 기다리고 반환한다.
+            thumbnail = wait.until(conditions, "It is not an image element or it does not exist.")  # thumbnail 요소를
+            # 찾을 때까지 기다리고 반환한다.
             attempts = 0  # 요소가 존재하므로 시도 횟수를 0으로 초기화한다.
         except Exception as e:  # 예외가 발생할 경우 수행한다.
             print(e)  # error message를 출력한다.
@@ -60,9 +61,8 @@ with browser as driver:  # edge driver를 with문 안에서 사용한다.
         move.perform()  # 이동 작업을 수행한다.
         thumbnail.click()  # 해당 thumbnail을 click한다.
 
-        locator = (By.CSS_SELECTOR,
-                   "#Sva75c > div > div > div.pxAole > div.tvh9oe.BIB1wf > c-wiz > div > div.OUZ5W > div.zjoqD > "
-                   "div > div.v4dQwb > a > img")  # 요소를 CSS_SELECTOR로 찾기 위해 준비한다.
+        locator = (By.CSS_SELECTOR, "#Sva75c > div > div > div.pxAole > div.tvh9oe.BIB1wf > c-wiz > div > div.OUZ5W > "
+                                    "div.zjoqD > div > div.v4dQwb > a > img")  # 요소를 CSS_SELECTOR로 찾기 위해 준비한다.
         conditions = expected_conditions.presence_of_element_located(locator)  # 해당 요소의 존재를 확인한다.
         image = wait.until(conditions)  # image 요소를 찾을 때까지 기다리고 반환한다.
         time.sleep(0.3)  # browser가 src 값을 갱신할 수 있게 기다린다.
