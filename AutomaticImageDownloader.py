@@ -54,6 +54,7 @@ with browser as driver:  # 드라이버를 with문으로 처리한다.
                 more_element = wait.until(more_presence, '''There is no "More results".''')  # 찾은 요소를 반환한다.
                 ActionChains(driver).move_to_element(more_element).perform()  # "결과 더보기" 요소로 화면을 이동한다.
                 more_element.click()  # 찾은 "결과 더보기"를 클릭한다.
+                continue  # 이후 코드는 건너뛴다.
 
         except Exception as e:  # 예외를 처리한다.
             print(e)  # 예외 메시지를 출력한다.
@@ -65,19 +66,19 @@ with browser as driver:  # 드라이버를 with문으로 처리한다.
                 file_number += 1  # 중복된다면 파일 이름에 적용할 번호를 1 증가시킨다.
 
             image_selector = f"#islrg > div.islrc > div:nth-child({element_number}) > a.wXeWr.islib.nfEiy.mM5pbd > " \
-                             f"div.bRMDJf.islir > img "  # 이미지를 찾을 selector를 설정한다.
+                             f"div.bRMDJf.islir > img"  # 이미지를 찾을 selector를 설정한다.
             image_locator = (By.CSS_SELECTOR, image_selector)  # selector를 locator로 지정한다.
             image_presence = expected_conditions.presence_of_element_located(image_locator)
             # 해당 요소가 존재하는지 확인하고 값을 반환한다.
             image_element = wait.until(image_presence)  # 찾은 요소를 반환한다.
             image_url = image_element.get_attribute("src")  # 찾은 이미지의 src 값을 반환한다.
+            print(image_number, image_url)  # 처리된 이미지의 번호와 url을 출력한다.
 
             with request.urlopen(image_url) as f:  # 이미지 url을 with문으로 처리한다.
                 image = f.read()  # 이미지를 읽고 보관한다.
             with open(f"Images/{file_name}/{file_name}_{file_number}.jpg", "wb") as f:  # 이미지 파일을 with문으로 처리한다.
                 f.write(image)  # 이미지를 파일로 저장한다.
 
-            print(image_number, image_url)  # 처리된 이미지의 번호와 url을 출력한다.
             image_number += 1  # 처리된 이미지의 번호를 증가시킨다.
 
         element_number += 1  # 찾을 결과 요소 번호를 1 증가시킨다.
