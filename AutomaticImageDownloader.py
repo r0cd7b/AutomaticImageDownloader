@@ -41,7 +41,7 @@ with browser as driver:  # 드라이버를 with문으로 처리한다.
                 # 결과 요소를 찾을 locator를 설정한다.
                 result_presence = expected_conditions.presence_of_element_located(result_locator)
                 # 해당 요소가 존재하는지 확인하고 값을 반환한다.
-                result_element = wait.until(result_presence, "There are no results.")  # 찾은 요소를 반환한다.
+                result_element = wait.until(result_presence, "There are no more search results.")  # 찾은 요소를 반환한다.
             except Exception as e:  # 예외를 처리한다.
                 print(e)  # 예외 메시지를 출력한다.
                 more_results_selector = "#islmp > div > div > div > div > div.qvfT1 > div.YstHxe > input"
@@ -55,7 +55,6 @@ with browser as driver:  # 드라이버를 with문으로 처리한다.
 
         except Exception as e:  # 예외를 처리한다.
             print(e)  # 예외 메시지를 출력한다.
-            input("If you want to exit, press any key.")  # 종료하기 전 아무 키 입력을 요구한다.
             break  # 프로그램을 종료한다.
 
         ActionChains(driver).move_to_element(result_element).perform()  # 검색 결과를 계속해서 불러오기 위해 해당 요소로 화면을 이동한다.
@@ -71,7 +70,7 @@ with browser as driver:  # 드라이버를 with문으로 처리한다.
             # 해당 요소가 존재하는지 확인하고 값을 반환한다.
             image_element = wait.until(image_presence)  # 찾은 요소를 반환한다.
             image_url = image_element.get_attribute("src")  # 찾은 이미지의 src 값을 반환한다.
-            print(image_url)
+            print(element_number, image_url)
 
             with request.urlopen(image_url) as f:  # 이미지 url을 with문으로 처리한다.
                 image = f.read()  # 이미지를 읽고 보관한다.
