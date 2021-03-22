@@ -20,8 +20,8 @@ import os
 from os import path
 from urllib import request
 
-search_word = "종이팩"  # 검색어를 정한다.
-file_name = "carton"  # 저장할 이미지 파일의 이름을 정한다.
+search_word = "금속캔"  # 검색어를 정한다.
+file_name = "metal_can"  # 저장할 이미지 파일의 이름을 정한다.
 browser = webdriver.Edge("msedgedriver.exe")  # 드라이버를 선언한다.
 
 with browser as driver:  # 드라이버를 with문으로 처리한다.
