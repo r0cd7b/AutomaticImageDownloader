@@ -4,10 +4,13 @@
 2. 자신의 컴퓨터에 설치된 브라우저 중 사용할 브라우저의 버전을 확인한다.
 3. 브라우저 버전에 맞는 드라이버 파일을 다운로드한다.
 3. 드라이버 파일을 이 py 파일과 같은 경로에 둔다.
-4. browser = webdriver.Edge("msedgedriver.exe") -> 이 코드에서 'Edge' 부분을 드라이버 종류에 맞게 아래 예시에서 찾아 수정하고 'msedgedriver.exe' 부분을 드라이버 파일 이름으로 수정한다.
+4. browser = webdriver.Edge("msedgedriver.exe")
+    이 코드에서 'Edge' 부분을 드라이버 종류에 맞게 아래 예시에서 찾아 수정하고 'msedgedriver.exe' 부분을 드라이버 파일 이름으로 수정한다.
     ex) 엣지: Edge, 크롬: Chrome, 파이어폭스: Firefox, 인터넷 익스플로러: Ie, 오페라: Opera, 사파리: Safari
-5. search_word = "페트" -> '페트' 부분을 원하는 검색어로 수정한다.
-6. folder_name = "PET" -> 'PET' 부분을 저장할 폴더 이름으로 수정한다. (저장될 폴더의 경로는 이 py 파일 경로와 같다.)
+5. search_word = "페트"
+    '페트' 부분을 원하는 검색어로 수정한다.
+6. folder_name = "PET"
+    'PET' 부분을 저장할 폴더 이름으로 수정한다. (저장될 폴더의 경로는 이 py 파일 경로와 같다.)
 """
 from selenium import webdriver
 from selenium.webdriver import ActionChains
