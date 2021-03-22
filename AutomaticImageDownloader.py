@@ -18,6 +18,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import os
 from os import path
+import time
 from urllib import request
 
 search_word = "종이팩"  # 검색어를 정한다.
@@ -54,6 +55,7 @@ with browser as driver:  # 드라이버를 with문으로 처리한다.
                 more_element = wait.until(more_presence, '''There is no "More results".''')  # 찾은 요소를 반환한다.
                 ActionChains(driver).move_to_element(more_element).perform()  # "결과 더보기" 요소로 화면을 이동한다.
                 more_element.click()  # 찾은 "결과 더보기"를 클릭한다.
+                time.sleep(1)  # 추가된 결과를 불러올 때까지 1초간 기다린다.
                 continue  # 이후 코드는 건너뛴다.
 
         except Exception as e:  # 예외를 처리한다.
