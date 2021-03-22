@@ -70,13 +70,13 @@ with browser as driver:  # 드라이버를 with문으로 처리한다.
             # 해당 요소가 존재하는지 확인하고 값을 반환한다.
             image_element = wait.until(image_presence)  # 찾은 요소를 반환한다.
             image_url = image_element.get_attribute("src")  # 찾은 이미지의 src 값을 반환한다.
-            print(image_number, image_url)  # 처리된 이미지의 번호와 url을 출력한다.
 
             with request.urlopen(image_url) as f:  # 이미지 url을 with문으로 처리한다.
                 image = f.read()  # 이미지를 읽고 보관한다.
             with open(f"{folder_name}/{folder_name}_{file_number}.jpg", "wb") as f:  # 이미지 파일을 with문으로 처리한다.
                 f.write(image)  # 이미지를 파일로 저장한다.
 
-            image_number += 1  # 처리된 이미지의 개수를 증가시킨다.
+            print(image_number, image_url)  # 처리된 이미지의 번호와 url을 출력한다.
+            image_number += 1  # 처리된 이미지의 번호를 증가시킨다.
 
         element_number += 1  # 찾을 결과 요소 번호를 1 증가시킨다.
