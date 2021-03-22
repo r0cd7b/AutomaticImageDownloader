@@ -1,16 +1,14 @@
 """
 ** 사전 조건 **
-1. "pip install" 명령어로 아래 import 모듈 중 없는 모듈을 설치한다.
-2. 자신의 컴퓨터에 설치된 브라우저 버전에 맞는 드라이버를 다운로드한다.
-3. 드라이버를 이 py 파일과 같은 경로로 옮긴다.
-4. driver_name = "msedgedriver.exe" -> 이 코드에서 'msedgedriver.exe' 부분을 드라이버 파일 이름으로 수정한다.
-5. browser = webdriver.Edge(driver_name) -> 이 코드에서 'Edge' 부분을 드라이버에 맞는 브라우저로 수정한다.
+1. 아래 모듈 중 없는 모듈을 설치한다. (pip install 명령어로 설치 가능하다.)
+2. 자신의 컴퓨터에 설치된 브라우저 중 사용할 브라우저의 버전을 확인한다.
+3. 브라우저 버전에 맞는 드라이버 파일을 다운로드한다.
+3. 드라이버 파일을 이 py 파일과 같은 경로에 둔다.
+4. browser = webdriver.Edge("msedgedriver.exe") -> 이 코드에서 'Edge' 부분을 드라이버 종류에 맞게 아래 예시에서 찾아 수정하고 'msedgedriver.exe' 부분을 드라이버 파일 이름으로 수정한다.
     ex) 엣지: Edge, 크롬: Chrome, 파이어폭스: Firefox, 인터넷 익스플로러: Ie, 오페라: Opera, 사파리: Safari
-6. search_word = "페트" -> '페트' 부분을 필요한 검색어로 수정한다.
-7. folder_name = "PET" -> 'PET' 부분을 저장할 폴더 이름으로 수정한다.
-    + 폴더의 경로는 이 py 파일과 같은 경로이다.
+5. search_word = "페트" -> '페트' 부분을 원하는 검색어로 수정한다.
+6. folder_name = "PET" -> 'PET' 부분을 저장할 폴더 이름으로 수정한다. (저장될 폴더의 경로는 이 py 파일 경로와 같다.)
 """
-
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions
@@ -19,64 +17,66 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import os
 from os import path
-import time
-import requests
+from urllib import request
 
-driver_name = "msedgedriver.exe"  # driver file의 이름을 입력한다.
-browser = webdriver.Edge(driver_name)  # 사용할 browser에 맞게 driver를 선언한다.
+browser = webdriver.Edge("msedgedriver.exe")  # 드라이버를 선언한다.
 search_word = "종이팩"  # 검색어를 정한다.
-folder_name = "Cartons"  # image를 저장할 folder 이름을 정한다.
+folder_name = "Cartons"  # 이미지를 저장할 폴더 이름을 정한다.
 
-with browser as driver:  # edge driver를 with문 안에서 사용한다.
-    wait = WebDriverWait(driver, 1)  # 허용 응답 시간이 1초인 WebDriverWait 객체를 선언한다.
-    driver.get(f"https://www.google.co.kr/imghp?hl=ko&ogbl")  # 검색할 site의 url를 지정한다.
+with browser as driver:  # 드라이버를 with문으로 처리한다.
+    driver.get("https://www.google.co.kr/imghp?hl=ko&ogbl")  # 드라이버에 페이지 주소를 연결한다.
+    driver.find_element(By.NAME, 'q').send_keys(search_word + Keys.RETURN)  # 검색 배너를 찾고 검색어를 입력한다.
 
-    search_banner = driver.find_element(By.NAME, "q")  # 검색 banner를 찾는다.
-    key_combination = search_word + Keys.RETURN  # 검색어와 RETURN key를 조합한다.
-    search_banner.send_keys(key_combination)  # 검색 banner에 key 조합을 입력한다.
+    if not path.isdir(folder_name):  # 이미지를 저장할 폴더가 존재하지 않는 경우 수행한다.
+        os.mkdir(folder_name)  # 폴더를 생성한다.
 
-    if not path.isdir(folder_name):  # image를 저장할 folder가 없을 경우 수행한다.
-        os.mkdir(folder_name)  # image를 저장할 folder를 생성한다.
+    wait = WebDriverWait(driver, 1)  # 드라이버가 동작할 때 최대 응답 대기 시간을 설정한다.
+    element_number = 1  # 검색된 결과 요소의 시작 번호를 설정한다.
+    image_number = 1  # 저장할 이미지 넘버링을 위한 시작 번호를 지정한다.
+    while True:  # 더 이상의 검색 결과가 없을 때까지 수행한다.
+        try:  # "결과 더보기" 요소가 없을 경우 예외가 발생한다.
 
-    attempts = 0  # '관련 검색어'를 제외한 image 항목을 찾기 위해 시도 횟수를 센다.
-    element_number = 1  # 검색된 요소 번호를 센다.
-    image_number = 1  # image 이름의 시작 번호를 지정한다.
-    while attempts < 2:  # '관련 검색어'는 건너뛰고 이후에도 image 항목이 없다면 중단한다.
-        selector = f"#islrg > div.islrc > div:nth-child({element_number}) > a.wXeWr.islib.nfEiy.mM5pbd > " \
-                   f"div.bRMDJf.islir > img"  # selector를 설정한다.
-        locator = (By.CSS_SELECTOR, selector)  # 요소를 CSS_SELECTOR로 찾기 위해 준비한다.
-        conditions = expected_conditions.presence_of_element_located(locator)  # 해당 요소의 존재를 확인한다.
-        try:  # 해당 요소 번호의 image가 없을 경우 예외가 발생한다.
-            thumbnail = wait.until(conditions, "It is not an image element or it does not exist.")  # thumbnail 요소를
-            # 찾을 때까지 기다리고 반환한다.
-            attempts = 0  # 요소가 존재하므로 시도 횟수를 0으로 초기화한다.
-        except Exception as e:  # 예외가 발생할 경우 수행한다.
-            print(e)  # error message를 출력한다.
-            element_number += 1  # 요소 번호를 1 증가시킨다.
-            attempts += 1  # 시도 횟수를 1 증가시킨다.
-            continue  # 이후 code는 건너 뛴다.
+            try:  # 검색된 결과 요소가 더 이상 없을 경우 예외가 발생한다.
+                result_locator = (By.CSS_SELECTOR, f"#islrg > div.islrc > div:nth-child({element_number})")
+                # 결과 요소를 찾을 locator를 설정한다.
+                result_presence = expected_conditions.presence_of_element_located(result_locator)
+                # 해당 요소가 존재하는지 확인하고 값을 반환한다.
+                result_element = wait.until(result_presence, "There are no results.")  # 찾은 요소를 반환한다.
+            except Exception as e:  # 예외를 처리한다.
+                print(e)  # 예외 메시지를 출력한다.
+                more_results_selector = "#islmp > div > div > div > div > div.qvfT1 > div.YstHxe > input"
+                # "결과 더보기" 요소를 찾을 selector를 설정한다.
+                more_results_locator = (By.CSS_SELECTOR, more_results_selector)  # selector를 locator로 지정한다.
+                more_results_presence = expected_conditions.presence_of_element_located(more_results_locator)
+                # 해당 요소가 존재하는지 확인하고 값을 반환한다.
+                more_results_element = wait.until(more_results_presence, '''There is no "More results".''')
+                # 찾은 요소를 반환한다.
+                more_results_element.click()  # 찾은 "결과 더보기"를 클릭한다.
 
-        action = ActionChains(driver)  # driver가 수행할 action을 초기화한다.
-        move = action.move_to_element(thumbnail)  # 해당 thumbnail 항목까지 이동하는 작업을 선언한다.
-        move.perform()  # 이동 작업을 수행한다.
-        thumbnail.click()  # 해당 thumbnail을 click한다.
+        except Exception as e:  # 예외를 처리한다.
+            print(e)  # 예외 메시지를 출력한다.
+            input("If you want to exit, press any key.")  # 종료하기 전 아무 키 입력을 요구한다.
+            break  # 프로그램을 종료한다.
 
-        locator = (By.CSS_SELECTOR, "#Sva75c > div > div > div.pxAole > div.tvh9oe.BIB1wf > c-wiz > div > div.OUZ5W > "
-                                    "div.zjoqD > div > div.v4dQwb > a > img")  # 요소를 CSS_SELECTOR로 찾기 위해 준비한다.
-        conditions = expected_conditions.presence_of_element_located(locator)  # 해당 요소의 존재를 확인한다.
-        image = wait.until(conditions)  # image 요소를 찾을 때까지 기다리고 반환한다.
-        time.sleep(0.4)  # browser가 src 값을 갱신할 수 있게 기다린다.
-        img_url = image.get_attribute("src")  # 현재 image의 src를 보관한다.
-        print(img_url)  # 찾아낸 image의 url을 출력한다.
+        ActionChains(driver).move_to_element(result_element).perform()  # 검색 결과를 계속해서 불러오기 위해 해당 요소로 화면을 이동한다.
 
-        img_path = f"{folder_name}/{folder_name}_{image_number}.jpg"  # image의 경로를 보관한다.
-        while path.isfile(img_path):  # 이미 존재하는 file 이름이라면 반복한다.
-            image_number += 1  # image 번호를 1 증가시킨다.
-            img_path = f"{folder_name}/{folder_name}_{image_number}.jpg"  # image 경로를 갱신한다.
+        if result_element.get_attribute("class") == "isv-r PNCib MSM1fd BUooTd":  # 해당 결과 요소가 이미지가 맞을 경우 수행한다.
+            while path.isfile(f"{folder_name}/{folder_name}_{image_number}.jpg"):  # 중복되는 파일 이름이 있는지 검사한다.
+                image_number += 1  # 중복된다면 파일 이름에 적용할 번호를 1 증가시킨다.
 
-        header = {'User-Agent': 'Edge/89.0.774.57'}  # 서버에서 User-Agent를 요구하는 경우를 위해 해당 정보를 준비한다.
-        result = requests.get(img_url, headers=header)  # request룰 선언한다.
-        with open(img_path, 'wb') as f:  # image를 file로 처리한다.
-            f.write(result.content)  # image를 file로 저장한다.
+            image_selector = f"#islrg > div.islrc > div:nth-child({element_number}) > a.wXeWr.islib.nfEiy.mM5pbd > " \
+                             f"div.bRMDJf.islir > img "  # 이미지를 찾을 selector를 설정한다.
+            image_locator = (By.CSS_SELECTOR, image_selector)  # selector를 locator로 지정한다.
+            image_presence = expected_conditions.presence_of_element_located(image_locator)
+            # 해당 요소가 존재하는지 확인하고 값을 반환한다.
+            image_element = wait.until(image_presence)  # 찾은 요소를 반환한다.
+            image_url = image_element.get_attribute("src")  # 찾은 이미지의 src 값을 반환한다.
+            print(image_url)
 
-        element_number += 1  # 요소 번호를 1 증가시킨다.
+            with request.urlopen(image_url) as f:  # 이미지 url을 with문으로 처리한다.
+                image = f.read()  # 이미지를 읽고 보관한다.
+
+            with open(f"{folder_name}/{folder_name}_{image_number}.jpg", "wb") as f:  # 이미지 파일을 with문으로 처리한다.
+                f.write(image)  # 이미지를 파일로 저장한다.
+
+        element_number += 1  # 결과 요소 번호를 1 증가시킨다.
