@@ -7,7 +7,7 @@
 5. browser = webdriver.Edge("msedgedriver.exe") -> 'Edge' 부분을 드라이버 종류에 맞게 아래 예시에서 참고하여 수정한다.
     ex) 엣지: Edge, 크롬: Chrome, 파이어폭스: Firefox, 인터넷 익스플로러: Ie, 오페라: Opera, 사파리: Safari
 6. browser = webdriver.Edge("msedgedriver.exe") -> 'msedgedriver.exe' 부분을 드라이버 파일 이름으로 수정한다.
-7. folder_name = "PET" -> 'PET' 부분을 저장할 폴더 이름으로 수정한다. (저장될 폴더의 경로는 이 py 파일 경로와 같다.)
+7. folder_name = "PET" -> 'PET' 부분을 저장할 폴더 이름으로 수정한다. (폴더의 경로는 이 py 파일 경로와 같다.)
 8. search_word = "페트" -> '페트' 부분을 원하는 검색어로 수정한다.
 """
 from selenium import webdriver
@@ -20,16 +20,15 @@ import os
 from os import path
 from urllib import request
 
-search_word = "종이팩"  # 검색어를 정한다.
-folder_name = "Cartons"  # 이미지를 저장할 폴더 이름을 정한다.
+search_word = "금속캔"  # 검색어를 정한다.
+folder_name = "Cans"  # 이미지를 저장할 폴더 이름을 정한다.
 browser = webdriver.Edge("msedgedriver.exe")  # 드라이버를 선언한다.
 
 with browser as driver:  # 드라이버를 with문으로 처리한다.
     driver.get("https://www.google.co.kr/imghp?hl=ko&ogbl")  # 드라이버에 페이지 주소를 연결한다.
     driver.find_element(By.NAME, 'q').send_keys(search_word + Keys.RETURN)  # 검색 배너를 찾고 검색어를 입력한다.
 
-    if not path.isdir(folder_name):  # 이미지를 저장할 폴더가 존재하지 않는 경우 수행한다.
-        os.mkdir(folder_name)  # 폴더를 생성한다.
+    os.makedirs(f"Images/{folder_name}", exist_ok=True)  # 이미지를 저장할 폴더가 있는지 확인하고 생성한다.
 
     wait = WebDriverWait(driver, 1)  # 드라이버가 동작할 때 최대 응답 대기 시간을 설정한다.
     element_number = 1  # 검색된 결과 요소의 시작 번호를 설정한다.
@@ -61,7 +60,7 @@ with browser as driver:  # 드라이버를 with문으로 처리한다.
         ActionChains(driver).move_to_element(result_element).perform()  # 검색 결과를 계속해서 불러오기 위해 해당 요소로 화면을 이동한다.
 
         if result_element.get_attribute("class") == "isv-r PNCib MSM1fd BUooTd":  # 해당 결과 요소가 이미지가 맞을 경우 수행한다.
-            while path.isfile(f"{folder_name}/{folder_name}_{file_number}.jpg"):  # 중복되는 파일 이름이 있는지 검사한다.
+            while path.isfile(f"Images/{folder_name}/{folder_name}_{file_number}.jpg"):  # 중복되는 파일 이름이 있는지 검사한다.
                 file_number += 1  # 중복된다면 파일 이름에 적용할 번호를 1 증가시킨다.
 
             image_selector = f"#islrg > div.islrc > div:nth-child({element_number}) > a.wXeWr.islib.nfEiy.mM5pbd > " \
@@ -74,7 +73,7 @@ with browser as driver:  # 드라이버를 with문으로 처리한다.
 
             with request.urlopen(image_url) as f:  # 이미지 url을 with문으로 처리한다.
                 image = f.read()  # 이미지를 읽고 보관한다.
-            with open(f"{folder_name}/{folder_name}_{file_number}.jpg", "wb") as f:  # 이미지 파일을 with문으로 처리한다.
+            with open(f"Images/{folder_name}/{folder_name}_{file_number}.jpg", "wb") as f:  # 이미지 파일을 with문으로 처리한다.
                 f.write(image)  # 이미지를 파일로 저장한다.
 
             print(image_number, image_url)  # 처리된 이미지의 번호와 url을 출력한다.
