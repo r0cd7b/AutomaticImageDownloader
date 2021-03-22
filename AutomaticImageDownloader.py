@@ -20,9 +20,9 @@ import os
 from os import path
 from urllib import request
 
-browser = webdriver.Edge("msedgedriver.exe")  # 드라이버를 선언한다.
 search_word = "종이팩"  # 검색어를 정한다.
 folder_name = "Cartons"  # 이미지를 저장할 폴더 이름을 정한다.
+browser = webdriver.Edge("msedgedriver.exe")  # 드라이버를 선언한다.
 
 with browser as driver:  # 드라이버를 with문으로 처리한다.
     driver.get("https://www.google.co.kr/imghp?hl=ko&ogbl")  # 드라이버에 페이지 주소를 연결한다.
