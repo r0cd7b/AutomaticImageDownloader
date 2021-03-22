@@ -42,7 +42,6 @@ with browser as driver:  # 드라이버를 with문으로 처리한다.
                 result_presence = expected_conditions.presence_of_element_located(result_locator)
                 # 해당 요소가 존재하는지 확인하고 값을 반환한다.
                 result_element = wait.until(result_presence, "There are no more search results.")  # 찾은 요소를 반환한다.
-                print(element_number, result_element.text)
             except Exception as e:  # 예외를 처리한다.
                 print(e)  # 예외 메시지를 출력한다.
                 more_results_selector = "#islmp > div > div > div > div > div.qvfT1 > div.YstHxe > input"
