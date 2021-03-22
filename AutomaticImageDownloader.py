@@ -47,15 +47,13 @@ with browser as driver:  # 드라이버를 with문으로 처리한다.
 
             except Exception as e:  # 예외를 처리한다.
                 print(e)  # 예외 메시지를 출력한다.
-                more_results_selector = "#islmp > div > div > div > div > div.qvfT1 > div.YstHxe > input"
-                # "결과 더보기" 요소를 찾을 selector를 설정한다.
-                more_results_locator = (By.CSS_SELECTOR, more_results_selector)  # selector를 locator로 지정한다.
-                more_results_presence = expected_conditions.presence_of_element_located(more_results_locator)
+                more_locator = (By.CSS_SELECTOR, "#islmp > div > div > div > div > div.qvfT1 > div.YstHxe > input")
+                # selector를 locator로 지정한다.
+                more_presence = expected_conditions.presence_of_element_located(more_locator)
                 # 해당 요소가 존재하는지 확인하고 값을 반환한다.
-                more_results_element = wait.until(more_results_presence, '''There is no "More results".''')
-                # 찾은 요소를 반환한다.
-                ActionChains(driver).move_to_element(more_results_element).perform()  # "결과 더보기" 요소로 화면을 이동한다.
-                more_results_element.click()  # 찾은 "결과 더보기"를 클릭한다.
+                more_element = wait.until(more_presence, '''There is no "More results".''')  # 찾은 요소를 반환한다.
+                ActionChains(driver).move_to_element(more_element).perform()  # "결과 더보기" 요소로 화면을 이동한다.
+                more_element.click()  # 찾은 "결과 더보기"를 클릭한다.
 
         except Exception as e:  # 예외를 처리한다.
             print(e)  # 예외 메시지를 출력한다.
