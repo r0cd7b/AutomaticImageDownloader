@@ -20,8 +20,8 @@ import os
 from os import path
 from urllib import request
 
-search_word = "금속캔"  # 검색어를 정한다.
-file_name = "metal_can"  # 저장할 이미지 파일의 이름을 정한다.
+search_word = "종이팩"  # 검색어를 정한다.
+file_name = "carton"  # 저장할 이미지 파일의 이름을 정한다.
 browser = webdriver.Edge("msedgedriver.exe")  # 드라이버를 선언한다.
 
 with browser as driver:  # 드라이버를 with문으로 처리한다.
@@ -58,7 +58,7 @@ with browser as driver:  # 드라이버를 with문으로 처리한다.
 
         except Exception as e:  # 예외를 처리한다.
             print(e)  # 예외 메시지를 출력한다.
-            print("All of the searched images have been saved.")  # 모든 이미지를 저장했음을 알린다.
+            print("Press any key to exit.")  # 아무 키나 누르면 종료된다.
             break  # 프로그램을 종료한다.
 
         if result_element.get_attribute("class") == "isv-r PNCib MSM1fd BUooTd":  # 해당 결과 요소가 이미지가 맞을 경우 수행한다.
