@@ -24,8 +24,8 @@ import requests
 
 driver_name = "msedgedriver.exe"  # driver file의 이름을 입력한다.
 browser = webdriver.Edge(driver_name)  # 사용할 browser에 맞게 driver를 선언한다.
-search_word = "페트"  # 검색어를 정한다.
-folder_name = "PET"  # image를 저장할 folder 이름을 정한다.
+search_word = "종이팩"  # 검색어를 정한다.
+folder_name = "Cartons"  # image를 저장할 folder 이름을 정한다.
 
 with browser as driver:  # edge driver를 with문 안에서 사용한다.
     wait = WebDriverWait(driver, 1)  # 허용 응답 시간이 1초인 WebDriverWait 객체를 선언한다.
