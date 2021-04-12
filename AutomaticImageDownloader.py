@@ -21,8 +21,8 @@ from os import path
 import time
 from urllib import request
 
-search_word = "금속캔"  # 검색어를 정한다.
-file_name = "Metal_can"  # 저장할 이미지 파일의 이름을 정한다.
+search_word = "Cans"  # 검색어를 정한다.
+file_name = "Cans"  # 저장할 이미지 파일의 이름을 정한다.
 browser = webdriver.Edge("msedgedriver.exe")  # 드라이버를 선언한다.
 
 with browser as driver:  # 드라이버를 with문으로 처리한다.
@@ -55,7 +55,7 @@ with browser as driver:  # 드라이버를 with문으로 처리한다.
                 more_element = wait.until(more_presence, '''There is no "More results".''')  # 찾은 요소를 반환한다.
                 ActionChains(driver).move_to_element(more_element).perform()  # "결과 더보기" 요소로 화면을 이동한다.
                 more_element.click()  # 찾은 "결과 더보기"를 클릭한다.
-                time.sleep(2)  # 추가된 결과를 불러올 때까지 1초간 기다린다.
+                time.sleep(3)  # 추가된 결과를 불러올 때까지 1초간 기다린다.
                 continue  # 이후 코드는 건너뛴다.
 
         except Exception as e:  # 예외를 처리한다.
